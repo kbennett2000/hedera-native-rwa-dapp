@@ -1,0 +1,35 @@
+{
+  "name": "hedera-native-rwa-dapp",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Part 2 of the Hedera RWA teaching series: a compliance-gated Real World Asset token built with native Hedera services (HTS, HCS, Mirror Node, @hashgraph/sdk).",
+  "license": "MIT",
+  "author": "Kenneth Bennett (kbennett2000)",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "test": "vitest run --passWithNoTests test/unit",
+    "test:integration": "vitest run --passWithNoTests test/integration",
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@hashgraph/sdk": "^2.81.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.9.1",
+    "eslint": "^10.4.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.3",
+    "tsx": "^4.22.3",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.60.0",
+    "vitest": "^4.1.7"
+  }
+}

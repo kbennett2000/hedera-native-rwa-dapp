@@ -1,0 +1,3 @@
+# Normalize line endings to LF in the repo (CI runs on Linux; CRLF in .nvmrc
+# or shell scripts breaks tooling). Working copies are converted per-platform.
+* text=auto eol=lf
