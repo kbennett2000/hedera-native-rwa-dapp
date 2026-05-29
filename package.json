@@ -7,7 +7,7 @@
   "license": "MIT",
   "author": "Kenneth Bennett (kbennett2000)",
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",

@@ -1,0 +1,13 @@
+{
+  "tokens": [
+    {
+      "token_id": "0.0.123456",
+      "balance": 0,
+      "kyc_status": "REVOKED",
+      "freeze_status": "UNFROZEN",
+      "automatic_association": false,
+      "created_timestamp": "1700000000.000000000"
+    }
+  ],
+  "links": { "next": null }
+}

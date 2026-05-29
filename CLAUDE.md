@@ -12,13 +12,13 @@ EVM/Solidity way. Audience: developers learning native Hedera RWA tokenization.
 
 ## Tech Stack
 
-- **Language:** TypeScript (strict mode), Node ≥ 18, ES modules.
+- **Language:** TypeScript (strict mode), Node ≥ 22, ES modules.
 - **Hedera:** `@hashgraph/sdk` (writes via gRPC), Mirror Node REST (reads via `fetch`).
 - **Validation:** Zod.
 - **Tests:** Vitest (split unit / integration). **Lint/format:** ESLint + Prettier. **Run TS:** tsx.
 - **Frontend:** React + Vite + TypeScript; Hedera WalletConnect (`@hashgraph/hedera-wallet-connect`) + HashPack for signing.
 - **Optional (cycle 4):** Hardhat + Solidity for the hybrid HTS-via-`0x167` module.
-- **Pinned versions** (repo init, 2026-05-28): `@hashgraph/sdk` ^2.81.0 · `zod` ^4.4.3 · `typescript` ^6.0.3 · `tsx` ^4.22.3 · `vitest` ^4.1.7 · `eslint` ^10.4.0 · `@eslint/js` ^10.0.1 · `typescript-eslint` ^8.60.0 · `eslint-config-prettier` ^10.1.8 · `prettier` ^3.8.3 · `@types/node` ^25.9.1. Node pinned via `.nvmrc` to 22 (active LTS); `engines` floor is Node ≥ 18.
+- **Pinned versions** (repo init, 2026-05-28): `@hashgraph/sdk` ^2.81.0 · `zod` ^4.4.3 · `typescript` ^6.0.3 · `tsx` ^4.22.3 · `vitest` ^4.1.7 · `eslint` ^10.4.0 · `@eslint/js` ^10.0.1 · `typescript-eslint` ^8.60.0 · `eslint-config-prettier` ^10.1.8 · `prettier` ^3.8.3 · `@types/node` ^25.9.1. Node pinned via `.nvmrc` to 22 (active LTS); `engines` floor is Node ≥ 22 (raised from 18 for `JSON.parse` source-text access — see ADR-0006).
 
 ## Architecture
 

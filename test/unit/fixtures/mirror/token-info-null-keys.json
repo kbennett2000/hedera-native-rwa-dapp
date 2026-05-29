@@ -1,0 +1,35 @@
+{
+  "token_id": "0.0.123456",
+  "name": "Acme RWA",
+  "symbol": "ARWA",
+  "decimals": "2",
+  "total_supply": "100000",
+  "initial_supply": "0",
+  "max_supply": "1000000",
+  "treasury_account_id": "0.0.1001",
+  "type": "FUNGIBLE_COMMON",
+  "pause_status": "PAUSED",
+  "supply_type": "FINITE",
+  "freeze_default": false,
+  "deleted": false,
+  "memo": "",
+  "admin_key": {
+    "_type": "ED25519",
+    "key": "aabbccddeeff00112233445566778899aabbccddeeff00112233445566778899"
+  },
+  "kyc_key": {
+    "_type": "ED25519",
+    "key": "aabbccddeeff00112233445566778899aabbccddeeff00112233445566778800"
+  },
+  "freeze_key": {
+    "_type": "ED25519",
+    "key": "aabbccddeeff00112233445566778899aabbccddeeff00112233445566778811"
+  },
+  "wipe_key": null,
+  "pause_key": null,
+  "supply_key": {
+    "_type": "ED25519",
+    "key": "aabbccddeeff00112233445566778899aabbccddeeff00112233445566778844"
+  },
+  "custom_fees": {}
+}
