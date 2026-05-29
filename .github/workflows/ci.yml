@@ -29,3 +29,43 @@ jobs:
       # Unit tests only — integration tests hit the network and run on demand.
       - name: Test (unit)
         run: npm test
+
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      # The frontend consumes the built core/ + sdk/ from ../dist via the @core /
+      # @sdkMirror aliases (ADR-0009), so build the root package first.
+      - name: Install root deps
+        run: npm ci
+      - name: Build core/sdk artifact
+        run: npm run build
+
+      - name: Install frontend deps
+        run: npm --prefix frontend ci
+
+      - name: Frontend typecheck
+        run: npm --prefix frontend run typecheck
+      - name: Frontend lint
+        run: npm --prefix frontend run lint
+
+      # Pure view-logic only. Wallet signing + live Mirror reads are verified
+      # manually (ADR-0003/0005) and do NOT gate CI.
+      - name: Frontend unit tests
+        run: npm --prefix frontend run test
+
+      # Catch Rollup module-resolution / bundling regressions (e.g. the wallet lib's
+      # directory imports). Placeholder env — the config gate is runtime, not build-time.
+      - name: Frontend build (Vite)
+        run: npm --prefix frontend run build
+        env:
+          VITE_WALLETCONNECT_PROJECT_ID: ci-placeholder
+          VITE_TOKEN_ID: '0.0.1'
+          VITE_TOPIC_ID: '0.0.2'
