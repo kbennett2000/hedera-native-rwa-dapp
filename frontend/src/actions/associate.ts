@@ -7,9 +7,16 @@ import { TokenAssociateTransaction } from '@hashgraph/sdk';
 import type { DAppSigner } from '@hashgraph/hedera-wallet-connect';
 import { buildAssociateArgs } from '@core';
 import type { AssociateArgs } from '@core';
+import { isDemoMode } from '../config';
 
-export async function associateToken(signer: DAppSigner, args: AssociateArgs): Promise<string> {
+export async function associateToken(
+  signer: DAppSigner | null,
+  args: AssociateArgs,
+): Promise<string> {
   const { accountId, tokenId } = buildAssociateArgs(args);
+  // Dev-only (ADR-0010): demo mode returns a canned success without signing.
+  if (isDemoMode()) return 'SUCCESS';
+  if (!signer) throw new Error('Connect a wallet first');
   const tx = new TokenAssociateTransaction().setAccountId(accountId).setTokenIds([tokenId]);
   const frozen = await tx.freezeWithSigner(signer);
   const response = await frozen.executeWithSigner(signer);

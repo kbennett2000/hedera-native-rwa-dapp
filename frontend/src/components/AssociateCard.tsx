@@ -28,16 +28,11 @@ export function AssociateCard({
   }
 
   async function onAssociate() {
-    const signer = getSigner();
-    if (!signer) {
-      setError('Connect a wallet first');
-      return;
-    }
     setBusy(true);
     setError(null);
     setStatus(null);
     try {
-      const result = await associateToken(signer, { accountId, tokenId });
+      const result = await associateToken(getSigner(), { accountId, tokenId });
       setStatus(result);
       onRefresh();
     } catch (err) {

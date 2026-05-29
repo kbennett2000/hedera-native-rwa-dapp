@@ -16,14 +16,24 @@ export type ConfigResult = { ok: true; config: AppConfig } | { ok: false; missin
 
 const DEFAULT_MIRROR = 'https://testnet.mirrornode.hedera.com';
 
+/**
+ * Dev-only demo mode (ADR-0010): renders the wallet-gated views with a stub signer and
+ * canned action outcomes for screenshots, while Mirror reads stay real. Never enabled in a
+ * normal build — it requires VITE_DEMO=1.
+ */
+export const isDemoMode = (): boolean => import.meta.env.VITE_DEMO === '1';
+export const demoAccountId = (): string => import.meta.env.VITE_DEMO_ACCOUNT_ID?.trim() || '0.0.0';
+
 export function readConfig(): ConfigResult {
   const env = import.meta.env;
+  const demo = isDemoMode();
   const projectId = env.VITE_WALLETCONNECT_PROJECT_ID?.trim() ?? '';
   const tokenId = env.VITE_TOKEN_ID?.trim() ?? '';
   const topicId = env.VITE_TOPIC_ID?.trim() ?? '';
 
   const missing: string[] = [];
-  if (!projectId) missing.push('VITE_WALLETCONNECT_PROJECT_ID');
+  // In demo mode no real wallet connects, so the WalletConnect project id is optional.
+  if (!projectId && !demo) missing.push('VITE_WALLETCONNECT_PROJECT_ID');
   if (!tokenId) missing.push('VITE_TOKEN_ID');
   if (!topicId) missing.push('VITE_TOPIC_ID');
   if (missing.length > 0) return { ok: false, missing };
@@ -31,7 +41,7 @@ export function readConfig(): ConfigResult {
   return {
     ok: true,
     config: {
-      walletConnectProjectId: projectId,
+      walletConnectProjectId: projectId || (demo ? 'demo' : ''),
       network: env.VITE_HEDERA_NETWORK?.trim() || 'testnet',
       mirrorNodeUrl: env.VITE_MIRROR_NODE_URL?.trim() || DEFAULT_MIRROR,
       tokenId,

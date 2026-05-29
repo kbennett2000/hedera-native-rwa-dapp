@@ -23,12 +23,10 @@ export function TransferCard({
   const [outcome, setOutcome] = useState<TransferOutcome | null>(null);
 
   async function onTransfer() {
-    const signer = getSigner();
-    if (!signer) return;
     setBusy(true);
     setOutcome(null);
     try {
-      const result = await transferToken(signer, {
+      const result = await transferToken(getSigner(), {
         tokenId,
         fromAccountId: accountId,
         toAccountId: to.trim(),

@@ -18,6 +18,7 @@ import {
 } from '@hashgraph/hedera-wallet-connect';
 import type { DAppSigner } from '@hashgraph/hedera-wallet-connect';
 import type { AppConfig } from '../config';
+import { isDemoMode, demoAccountId } from '../config';
 
 export interface WalletApi {
   accountId: string | null;
@@ -36,15 +37,17 @@ function firstAccountId(connector: DAppConnector): string | null {
 }
 
 export function WalletProvider({ config, children }: { config: AppConfig; children: ReactNode }) {
+  const demo = isDemoMode();
   const connectorRef = useRef<DAppConnector | null>(null);
-  const [ready, setReady] = useState(false);
-  const [accountId, setAccountId] = useState<string | null>(null);
+  const [ready, setReady] = useState(demo);
+  const [accountId, setAccountId] = useState<string | null>(demo ? demoAccountId() : null);
   const [connecting, setConnecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Initialize the connector once. The guard keeps StrictMode's double-invoke (and any
   // re-render) from creating a second DAppConnector / leaking a WalletConnect session.
   useEffect(() => {
+    if (demo) return; // no real connector in demo mode
     if (connectorRef.current) {
       setReady(true);
       return;
@@ -78,9 +81,13 @@ export function WalletProvider({ config, children }: { config: AppConfig; childr
     return () => {
       cancelled = true;
     };
-  }, [config.walletConnectProjectId]);
+  }, [config.walletConnectProjectId, demo]);
 
   const connect = useCallback(async () => {
+    if (demo) {
+      setAccountId(demoAccountId());
+      return;
+    }
     const connector = connectorRef.current;
     if (!connector) return;
     setConnecting(true);
@@ -93,9 +100,13 @@ export function WalletProvider({ config, children }: { config: AppConfig; childr
     } finally {
       setConnecting(false);
     }
-  }, []);
+  }, [demo]);
 
   const disconnect = useCallback(async () => {
+    if (demo) {
+      setAccountId(null);
+      return;
+    }
     const connector = connectorRef.current;
     if (!connector) return;
     try {
@@ -103,11 +114,12 @@ export function WalletProvider({ config, children }: { config: AppConfig; childr
     } finally {
       setAccountId(null);
     }
-  }, []);
+  }, [demo]);
 
   const getSigner = useCallback((): DAppSigner | null => {
+    if (demo) return null; // demo mode never signs — the action modules short-circuit
     return connectorRef.current?.signers[0] ?? null;
-  }, []);
+  }, [demo]);
 
   const value = useMemo<WalletApi>(
     () => ({

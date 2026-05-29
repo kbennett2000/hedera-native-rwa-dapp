@@ -11,6 +11,7 @@ import { Long, ReceiptStatusError, TransferTransaction } from '@hashgraph/sdk';
 import type { DAppSigner } from '@hashgraph/hedera-wallet-connect';
 import { buildTransferArgs } from '@core';
 import type { TransferArgs } from '@core';
+import { isDemoMode } from '../config';
 
 /** Maximum HTS amount — token amounts are signed int64. */
 const MAX_INT64 = 9223372036854775807n;
@@ -29,7 +30,7 @@ function networkStatus(err: unknown): string {
 }
 
 export async function transferToken(
-  signer: DAppSigner,
+  signer: DAppSigner | null,
   args: TransferArgs,
 ): Promise<TransferOutcome> {
   // Phase 1 — client-side validation (never touches the network).
@@ -45,6 +46,16 @@ export async function transferToken(
       kind: 'validation',
       status: err instanceof Error ? err.message : 'invalid input',
     };
+  }
+
+  // Dev-only (ADR-0010): demo mode returns the REAL consensus rejection status a transfer
+  // to a non-KYC'd recipient would produce, without signing — for the teaching screenshot.
+  if (isDemoMode()) {
+    return { ok: false, kind: 'network', status: 'ACCOUNT_KYC_NOT_GRANTED_FOR_TOKEN' };
+  }
+
+  if (!signer) {
+    return { ok: false, kind: 'validation', status: 'Connect a wallet first' };
   }
 
   // Phase 2 — sign + submit. A compliance rejection (KYC / freeze / pause) lands in catch.
