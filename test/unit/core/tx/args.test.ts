@@ -9,6 +9,8 @@ import {
   buildUnfreezeArgs,
   buildPauseArgs,
   buildUnpauseArgs,
+  buildAssociateArgs,
+  buildTransferArgs,
 } from '../../../../src/core/tx/args.js';
 
 // ---------------------------------------------------------------------------
@@ -318,5 +320,148 @@ describe('buildUnpauseArgs', () => {
 
   it('throws when tokenId is invalid', () => {
     expect(() => buildUnpauseArgs({ tokenId: 'bad' })).toThrow();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// buildAssociateArgs
+// ---------------------------------------------------------------------------
+
+describe('buildAssociateArgs', () => {
+  it('returns correct shape for valid accountId and tokenId', () => {
+    const result = buildAssociateArgs({ accountId: '0.0.2002', tokenId: '0.0.123456' });
+    expect(result).toEqual({ accountId: '0.0.2002', tokenId: '0.0.123456' });
+  });
+
+  it('throws when accountId is "0x1"', () => {
+    expect(() => buildAssociateArgs({ accountId: '0x1', tokenId: '0.0.123456' })).toThrow();
+  });
+
+  it('throws when accountId is "abc"', () => {
+    expect(() => buildAssociateArgs({ accountId: 'abc', tokenId: '0.0.123456' })).toThrow();
+  });
+
+  it('throws when accountId is "0.0" (incomplete)', () => {
+    expect(() => buildAssociateArgs({ accountId: '0.0', tokenId: '0.0.123456' })).toThrow();
+  });
+
+  it('throws when tokenId is "0x1"', () => {
+    expect(() => buildAssociateArgs({ accountId: '0.0.2002', tokenId: '0x1' })).toThrow();
+  });
+
+  it('throws when tokenId is "abc"', () => {
+    expect(() => buildAssociateArgs({ accountId: '0.0.2002', tokenId: 'abc' })).toThrow();
+  });
+
+  it('throws when tokenId is "0.0" (incomplete)', () => {
+    expect(() => buildAssociateArgs({ accountId: '0.0.2002', tokenId: '0.0' })).toThrow();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// buildTransferArgs
+// ---------------------------------------------------------------------------
+
+describe('buildTransferArgs', () => {
+  it('returns correct shape for valid input', () => {
+    const result = buildTransferArgs({
+      tokenId: '0.0.123456',
+      fromAccountId: '0.0.1001',
+      toAccountId: '0.0.2002',
+      amount: '5000',
+    });
+    expect(result).toEqual({
+      tokenId: '0.0.123456',
+      fromAccountId: '0.0.1001',
+      toAccountId: '0.0.2002',
+      amount: '5000',
+    });
+  });
+
+  it('accepts a large within-int64 amount string and preserves it exactly', () => {
+    const result = buildTransferArgs({
+      tokenId: '0.0.1',
+      fromAccountId: '0.0.2',
+      toAccountId: '0.0.3',
+      amount: '9007199254740993',
+    });
+    expect(result.amount).toBe('9007199254740993');
+  });
+
+  it('throws when fromAccountId is invalid', () => {
+    expect(() =>
+      buildTransferArgs({
+        tokenId: '0.0.123456',
+        fromAccountId: '0x1001',
+        toAccountId: '0.0.2002',
+        amount: '100',
+      }),
+    ).toThrow();
+  });
+
+  it('throws when toAccountId is invalid', () => {
+    expect(() =>
+      buildTransferArgs({
+        tokenId: '0.0.123456',
+        fromAccountId: '0.0.1001',
+        toAccountId: 'not-valid',
+        amount: '100',
+      }),
+    ).toThrow();
+  });
+
+  it('throws when tokenId is invalid', () => {
+    expect(() =>
+      buildTransferArgs({
+        tokenId: 'bad-token',
+        fromAccountId: '0.0.1001',
+        toAccountId: '0.0.2002',
+        amount: '100',
+      }),
+    ).toThrow();
+  });
+
+  it('throws when amount is "0"', () => {
+    expect(() =>
+      buildTransferArgs({
+        tokenId: '0.0.1',
+        fromAccountId: '0.0.2',
+        toAccountId: '0.0.3',
+        amount: '0',
+      }),
+    ).toThrow();
+  });
+
+  it('throws when amount is negative "-1"', () => {
+    expect(() =>
+      buildTransferArgs({
+        tokenId: '0.0.1',
+        fromAccountId: '0.0.2',
+        toAccountId: '0.0.3',
+        amount: '-1',
+      }),
+    ).toThrow();
+  });
+
+  it('throws when amount is a decimal "1.5"', () => {
+    expect(() =>
+      buildTransferArgs({
+        tokenId: '0.0.1',
+        fromAccountId: '0.0.2',
+        toAccountId: '0.0.3',
+        amount: '1.5',
+      }),
+    ).toThrow();
+  });
+
+  it('throws when amount is a number type instead of a string', () => {
+    expect(() =>
+      buildTransferArgs({
+        tokenId: '0.0.1',
+        fromAccountId: '0.0.2',
+        toAccountId: '0.0.3',
+        amount: 500 as unknown as string,
+      }),
+    ).toThrow();
   });
 });

@@ -107,3 +107,27 @@ export function buildPauseArgs(input: TokenOnlyArgs): TokenOnlyArgs {
 export function buildUnpauseArgs(input: TokenOnlyArgs): TokenOnlyArgs {
   return TokenOnlySchema.parse(input);
 }
+
+// --- investor-action builders (Cycle 3) -----------------------------------------
+// Associate and transfer are the only investor-signed actions (ADR-0003). The args
+// are validated here in core (same doctrine as the issuer builders); the frontend
+// signs/submits the validated data via the connected wallet.
+
+const AssociateSchema = z.object({ accountId: entityId, tokenId: entityId });
+const TransferSchema = z.object({
+  tokenId: entityId,
+  fromAccountId: entityId,
+  toAccountId: entityId,
+  amount: positiveAmount,
+});
+
+export type AssociateArgs = z.output<typeof AssociateSchema>;
+export type TransferArgs = z.output<typeof TransferSchema>;
+
+export function buildAssociateArgs(input: AssociateArgs): AssociateArgs {
+  return AssociateSchema.parse(input);
+}
+
+export function buildTransferArgs(input: TransferArgs): TransferArgs {
+  return TransferSchema.parse(input);
+}
