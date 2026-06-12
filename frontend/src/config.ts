@@ -18,8 +18,9 @@ const DEFAULT_MIRROR = 'https://testnet.mirrornode.hedera.com';
 
 /**
  * Dev-only demo mode (ADR-0010): renders the wallet-gated views with a stub signer and
- * canned action outcomes for screenshots, while Mirror reads stay real. Never enabled in a
- * normal build — it requires VITE_DEMO=1.
+ * canned action outcomes. Mirror reads stay real in normal use; the screenshot script
+ * additionally intercepts them with fixtures (see scripts/fixtures/ and the ADR-0010
+ * amendment). Never enabled in a normal build — it requires VITE_DEMO=1.
  */
 export const isDemoMode = (): boolean => import.meta.env.VITE_DEMO === '1';
 export const demoAccountId = (): string => import.meta.env.VITE_DEMO_ACCOUNT_ID?.trim() || '0.0.0';

@@ -17,6 +17,7 @@
     "test": "vitest run src",
     "banner": "node scripts/banner.mjs",
     "placeholders": "node scripts/placeholders.mjs",
+    "prescreenshots": "npm --prefix .. run build",
     "screenshots": "node scripts/screenshots.mjs"
   },
   "dependencies": {

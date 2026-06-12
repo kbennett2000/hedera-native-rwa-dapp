@@ -1,0 +1,70 @@
+{
+  "messages": [
+    {
+      "consensus_timestamp": "1781101807.524071003",
+      "sequence_number": 1,
+      "payer_account_id": "0.0.1234567",
+      "payload": {
+        "v": 1,
+        "type": "TOPIC_CREATED",
+        "tokenId": "0.0.5821234",
+        "ts": "2026-06-10T14:30:05Z",
+        "actor": "0.0.1234567"
+      }
+    },
+    {
+      "consensus_timestamp": "1781101811.080912047",
+      "sequence_number": 2,
+      "payer_account_id": "0.0.1234567",
+      "payload": {
+        "v": 1,
+        "type": "TOKEN_CREATED",
+        "tokenId": "0.0.5821234",
+        "ts": "2026-06-10T14:30:08Z",
+        "actor": "0.0.1234567"
+      }
+    },
+    {
+      "consensus_timestamp": "1781101903.291847110",
+      "sequence_number": 3,
+      "payer_account_id": "0.0.1234567",
+      "payload": {
+        "v": 1,
+        "type": "MINTED",
+        "tokenId": "0.0.5821234",
+        "ts": "2026-06-10T14:31:40Z",
+        "actor": "0.0.1234567",
+        "amount": "2500000",
+        "note": "Initial issuance to treasury"
+      }
+    },
+    {
+      "consensus_timestamp": "1781101996.611208334",
+      "sequence_number": 4,
+      "payer_account_id": "0.0.1234567",
+      "payload": {
+        "v": 1,
+        "type": "KYC_GRANTED",
+        "tokenId": "0.0.5821234",
+        "ts": "2026-06-10T14:33:12Z",
+        "actor": "0.0.1234567",
+        "subject": "0.0.9876543",
+        "note": "Investor onboarding"
+      }
+    },
+    {
+      "consensus_timestamp": "1781169152.443019882",
+      "sequence_number": 5,
+      "payer_account_id": "0.0.1234567",
+      "payload": {
+        "v": 1,
+        "type": "KYC_GRANTED",
+        "tokenId": "0.0.5821234",
+        "ts": "2026-06-11T09:12:30Z",
+        "actor": "0.0.1234567",
+        "subject": "0.0.8011234"
+      }
+    }
+  ],
+  "links": { "next": null }
+}

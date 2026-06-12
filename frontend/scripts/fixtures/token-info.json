@@ -1,0 +1,42 @@
+{
+  "token_id": "0.0.5821234",
+  "name": "Acme RWA",
+  "symbol": "ARWA",
+  "decimals": "2",
+  "total_supply": "2500000",
+  "initial_supply": "0",
+  "max_supply": "0",
+  "treasury_account_id": "0.0.1234567",
+  "type": "FUNGIBLE_COMMON",
+  "pause_status": "UNPAUSED",
+  "supply_type": "INFINITE",
+  "freeze_default": false,
+  "deleted": false,
+  "memo": "Compliance-gated RWA demo token (simulated capture fixture)",
+  "admin_key": {
+    "_type": "ED25519",
+    "key": "d04aa1d8c5f7e2b9a3c6e0f1827364554637281905f4e3d2c1b0a99887766554"
+  },
+  "kyc_key": {
+    "_type": "ED25519",
+    "key": "d04aa1d8c5f7e2b9a3c6e0f1827364554637281905f4e3d2c1b0a99887766501"
+  },
+  "freeze_key": {
+    "_type": "ED25519",
+    "key": "d04aa1d8c5f7e2b9a3c6e0f1827364554637281905f4e3d2c1b0a99887766502"
+  },
+  "wipe_key": {
+    "_type": "ED25519",
+    "key": "d04aa1d8c5f7e2b9a3c6e0f1827364554637281905f4e3d2c1b0a99887766503"
+  },
+  "pause_key": {
+    "_type": "ED25519",
+    "key": "d04aa1d8c5f7e2b9a3c6e0f1827364554637281905f4e3d2c1b0a99887766504"
+  },
+  "supply_key": {
+    "_type": "ED25519",
+    "key": "d04aa1d8c5f7e2b9a3c6e0f1827364554637281905f4e3d2c1b0a99887766505"
+  },
+  "created_timestamp": "1781101811.080912047",
+  "modified_timestamp": "1781169152.443019882"
+}
