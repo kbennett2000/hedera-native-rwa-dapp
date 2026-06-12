@@ -523,21 +523,6 @@ The codebase has a hard rule: **logic lives in `core/`; `sdk/` stays thin**.
 
 Every Mirror Node response goes: raw text → `core/mirror/json.ts` bigint-safe parser → Zod schema → typed struct. The `sdk/` layer never calls `JSON.parse` directly on a Mirror response.
 
-### ADR Index
-
-| ADR | Decision |
-|---|---|
-| [ADR-0001](docs/adr/0001-use-native-hedera-services.md) | Use native HTS/HCS/Mirror Node instead of EVM/Solidity for compliance |
-| [ADR-0002](docs/adr/0002-separate-pure-logic-from-sdk-execution.md) | Two-layer split: `core/` (pure, tested) vs `sdk/` (thin execution) |
-| [ADR-0003](docs/adr/0003-issuer-scripts-investor-wallet-split.md) | Issuer actions as SDK scripts; frontend wallet for investor actions only |
-| [ADR-0004](docs/adr/0004-hcs-topic-as-audit-trail.md) | HCS topic as the per-token compliance audit trail |
-| [ADR-0005](docs/adr/0005-testnet-on-demand-for-integration-tests.md) | Integration tests run against testnet, on demand, not in CI |
-| [ADR-0006](docs/adr/0006-bigint-safe-mirror-node-parsing.md) | Parse Mirror amounts bigint-safe in `core/` (Node ≥ 22 required) |
-| [ADR-0007](docs/adr/0007-deployments-json-and-issuer-script-runtime.md) | `deployments.json` gitignored; scripts use Node's built-in `process.loadEnvFile` |
-| [ADR-0008](docs/adr/0008-frontend-wallet-integration.md) | Pin `@hashgraph/hedera-wallet-connect` ^1.3.4 for a single `@hashgraph/sdk` across the repo |
-| [ADR-0009](docs/adr/0009-frontend-core-integration-and-read-model.md) | Frontend consumes built `dist/core` artifact; Mirror read/refresh model with bounded post-action poll |
-| [ADR-0010](docs/adr/0010-screenshots-and-banner-capture.md) | Wallet-gated screenshots via dev-only demo mode; honesty captions required |
-
 ---
 
 ## 9. Testing
