@@ -13,7 +13,7 @@
   <img src="https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript&logoColor=white" alt="TypeScript strict">
   <img src="https://img.shields.io/badge/Node-%E2%89%A522-339933?logo=node.js&logoColor=white" alt="Node ≥22">
   <img src="https://img.shields.io/badge/React_18_%2B_Vite_6-61dafb?logo=react&logoColor=white" alt="React 18 + Vite 6">
-  <img src="https://img.shields.io/badge/tests-416_%2B_40_passing-3da639" alt="416 + 40 tests passing">
+  <img src="https://img.shields.io/badge/tests-424_%2B_40_passing-3da639" alt="424 + 40 tests passing">
   <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome">
   <img src="https://img.shields.io/badge/Built%20with-@hashgraph%2Fsdk-4a4a4a" alt="Built with @hashgraph/sdk">
 </p>
@@ -34,18 +34,15 @@ The two repos exist to sit side-by-side. As you read Part 2, you constantly see 
 
 ## Demo
 
-The read-only panels show live Mirror Node data from a bundled demo token and topic on Hedera testnet — no wallet required to load them.
+The screenshots below were captured from the app in its dev-only demo mode with **simulated Mirror Node responses** (see ADR-0010) — no live deployment backs them. Run the [Quickstart](#6-quickstart) to see the same panels with live Mirror data from your own token and topic.
 
-- **Token on HashScan:** [`https://hashscan.io/testnet/token/0.0.XXXXXX`](https://hashscan.io/testnet/token/0.0.XXXXXX)
-- **Audit topic on HashScan:** [`https://hashscan.io/testnet/topic/0.0.YYYYYY`](https://hashscan.io/testnet/topic/0.0.YYYYYY)
+After the Quickstart, view your own entities on HashScan: `https://hashscan.io/testnet/token/<your-tokenId>` and `https://hashscan.io/testnet/topic/<your-topicId>` (ids from your `deployments.json`).
 
-> Replace `0.0.XXXXXX` and `0.0.YYYYYY` with the ids from your own `deployments.json` after running the issuer scripts — the maintainer fills these in alongside the screenshot capture.
+**Token Info** — needs no wallet; simulated Mirror data in this capture:
 
-**Token Info** — live Mirror data, no wallet:
+![Token info panel rendering Mirror Node data for the simulated demo token](docs/images/token-info.png)
 
-![Token info panel showing live Mirror Node data for the demo token](docs/images/token-info.png)
-
-> You are not the issuer of the demo deployment, so minting, granting KYC, and the other admin operations require your own deploy with your own operator key. The [Quickstart](#6-quickstart) covers the full flow.
+> There is no bundled live deployment — minting, granting KYC, and the other admin operations run against your own deploy with your own operator key. The [Quickstart](#6-quickstart) covers the full flow.
 
 ---
 
@@ -78,7 +75,7 @@ The pedagogical centerpiece. Every Part 1 concept maps to a Hedera-native equiva
 | Validation | Zod ^4 |
 | Language | TypeScript strict, Node ≥ 22, ES modules |
 | Frontend | React 18 · Vite 6 · `@hashgraph/hedera-wallet-connect` ^1.3.4 · HashPack |
-| Tests | Vitest ^4 (416 unit + 40 frontend, zero network) |
+| Tests | Vitest ^4 (424 unit + 40 frontend, zero network) |
 | Lint / format | ESLint ^10 · Prettier ^3 |
 | Scripts | `tsx` (runs `.ts` directly) |
 | CI | GitHub Actions (typecheck + lint + unit tests; no network) |
@@ -144,7 +141,7 @@ Why does any of this matter? By going through this module you will have SUCCESSF
 - Created a compliance-gated RWA token using **native Hedera token keys** — zero Solidity
 - Ran an investor flow: associate → receive tokens → attempt a blocked transfer → see the real network rejection code → grant KYC → retry and succeed
 - Read a live **HCS audit trail**: every compliance action written to a consensus-ordered message stream
-- Built a full-stack TypeScript app with a clean core/sdk separation that keeps 416 unit tests fast and network-free
+- Built a full-stack TypeScript app with a clean core/sdk separation that keeps 424 unit tests fast and network-free
 - Produced a working, portfolio-ready dApp that demonstrates how native Hedera services replace an entire compliance contract
 
 ### Native HTS Compliance Keys
@@ -381,7 +378,7 @@ Click **Connect HashPack** in the top-right. The WalletConnect modal opens. Scan
 
 ![Connected header showing account ID after HashPack is connected](docs/images/connected-header.png)
 
-> This screenshot was captured using the app's dev-only demo mode (see ADR-0010). Mirror reads in the background are real testnet data.
+> This screenshot was captured using the app's dev-only demo mode (see ADR-0010). Mirror reads in this capture are simulated fixture responses validated against the same parsers the app uses; with your own deployment they are live testnet reads.
 
 ### Step 6 — Associate with the token
 
@@ -393,11 +390,11 @@ The **Associate** card will show until your account is associated. Click **Assoc
 
 After the Mirror Node reflects the association (~5 seconds), the compliance status panel updates.
 
-**Compliance status** — live Mirror data for your connected account:
+**Compliance status** — read from Mirror for the connected account (simulated data in this capture):
 
 ![Compliance status panel showing associated/KYC/frozen/canReceive badges](docs/images/compliance-status.png)
 
-> Live Mirror Node data for the connected account (no demo mode — this panel requires no signing).
+> Demo-mode capture with simulated Mirror data. This panel requires no signing; with a real deployment it shows live Mirror state.
 
 You will see: Associated: yes · KYC: not granted · Frozen: no · Can receive: no.
 
@@ -407,13 +404,13 @@ Fill in any testnet account ID that has not been granted KYC as the recipient. C
 
 ![Transfer form with recipient account ID and amount fields](docs/images/transfer-form.png)
 
-> Captured via demo mode. The transfer signs with your connected wallet and submits to testnet.
+> Captured via demo mode with simulated data — nothing is submitted. Outside demo mode, the transfer signs with your connected wallet and submits to testnet.
 
 The network rejects the transfer:
 
 ![Transfer blocked — network returns ACCOUNT_KYC_NOT_GRANTED_FOR_TOKEN](docs/images/transfer-blocked.png)
 
-> **This is the payoff.** Captured via demo mode; the rejection code `ACCOUNT_KYC_NOT_GRANTED_FOR_TOKEN` is the **real** Hedera network status, verified on testnet. The network enforced the KYC gate — no Solidity revert, no contract, no custom logic. The `ReceiptStatusError` propagates from the SDK through the frontend action and is displayed verbatim.
+> **This is the payoff.** Captured via demo mode; the rejection code `ACCOUNT_KYC_NOT_GRANTED_FOR_TOKEN` is the **real** Hedera network status a transfer to a non-KYC'd recipient produces — run the Quickstart to reproduce it live. The network enforces the KYC gate — no Solidity revert, no contract, no custom logic. The `ReceiptStatusError` propagates from the SDK through the frontend action and is displayed verbatim.
 
 In Part 1, this rejection came from:
 
@@ -451,7 +448,7 @@ Scroll to the **Audit Trail** panel. It reads the HCS topic via Mirror Node and 
 
 ![Audit trail panel showing HCS topic messages in consensus order](docs/images/audit-trail.png)
 
-> Live Mirror Node data — the topic messages are real on-chain records, ordered by consensus timestamp.
+> Simulated audit feed (demo-mode fixtures) showing the exact message types the issuer scripts emit; with your own deployment these are real on-chain HCS records, ordered by consensus timestamp.
 
 ---
 
@@ -551,7 +548,7 @@ Every Mirror Node response goes: raw text → `core/mirror/json.ts` bigint-safe 
 npm test
 ```
 
-**416 tests, zero network, target under 10 seconds.** Covers:
+**424 tests, zero network, target under 10 seconds.** Covers:
 
 - HCS audit message schema: encode, decode, validate, forward-compat (unknown types)
 - Mirror Node parsers: bigint-safe amount parsing (fixtures include `balance > 2^53`)
@@ -602,7 +599,7 @@ Fees on Hedera are denominated in USD and are predictable. There is no gas estim
 **Solo** is the official successor for local Hedera development and testing. As of this writing, Solo is still in active development and not yet stable enough to depend on in a teaching repo.
 
 **What this means for you day-to-day:**
-- Prefer the **zero-network unit tests** (`npm test`) for the inner development loop — 416 tests, no network, no HBAR.
+- Prefer the **zero-network unit tests** (`npm test`) for the inner development loop — 424 tests, no network, no HBAR.
 - Use **testnet on demand** (`npm run test:integration`) for the full execution layer.
 - Watch [Solo](https://github.com/hiero-ledger/solo) as the future local-testing path.
 

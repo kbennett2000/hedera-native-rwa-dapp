@@ -1,7 +1,7 @@
 # 0010. Screenshots via demo mode; hero banner as SVG source + PNG
 
 Date: 2026-05-29
-Status: Accepted
+Status: Accepted (amended 2026-06-12)
 
 ## Context
 
@@ -26,8 +26,9 @@ features vary across GitHub's sanitizer; a PNG renders identically everywhere.
   sentinel signer, and the two action modules take a clearly-marked dev-only branch returning
   canned outcomes — the blocked transfer returns the **real** network status
   `ACCOUNT_KYC_NOT_GRANTED_FOR_TOKEN`. **Mirror reads stay real** (the demo account should be a
-  real testnet account), so on-chain state shown is genuine. The branch is unreachable without
-  the flag and never ships in a normal build.
+  real testnet account), so on-chain state shown is genuine. *(Superseded for the capture run
+  by the 2026-06-12 amendment below.)* The branch is unreachable without the flag and never
+  ships in a normal build.
 - **Read-only shots are captured against real testnet token/topic state** (no wallet).
 - **Capture is automated with Playwright** as a frontend dev tool (`npm run screenshots`,
   fixed viewport, dark theme → `docs/images/*.png`), regenerable, and **not in CI**.
@@ -55,6 +56,23 @@ capturable without a flaky extension; the banner renders identically everywhere.
 Harder: a small, clearly-fenced dev-only code path exists in the frontend (the demo branch);
 captions must carry the honesty note; the screenshot run needs a live deployment (so capture
 is done on a machine that has `deployments.json` + the demo account, not in CI).
+
+## Amendment (2026-06-12): capture uses simulated Mirror responses
+
+The original decision required a live testnet deployment for capture; no deployment (and no
+testnet account) was available when the screenshots were due. Capture now intercepts the
+app's Mirror Node requests in Playwright (`page.route`) and serves hand-authored fixtures
+(`frontend/scripts/fixtures/`), validated by `test/unit/screenshot-fixtures.test.ts` against
+the same core Zod schemas the app applies on read. Capture is therefore regenerable in any
+environment — no testnet account, no `.env`, no app-code changes (the demo-mode footprint is
+unchanged).
+
+The honesty rule extends accordingly: captions must state that the data is simulated and
+never present fixture values as real on-chain state. The blocked-transfer code remains the
+real network status string `ACCOUNT_KYC_NOT_GRANTED_FOR_TOKEN`. This supersedes "Mirror reads
+stay real" in the Decision and the "needs a live deployment" consequence above — for the
+capture run only; in normal use of the app (including demo mode outside the capture script),
+Mirror reads remain real.
 
 ## Revisit if
 
