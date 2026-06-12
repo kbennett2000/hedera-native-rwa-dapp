@@ -498,20 +498,20 @@ The codebase has a hard rule: **logic lives in `core/`; `sdk/` stays thin**.
 
 ```
                      ┌──────────────────────────────────────────┐
-  npm test           │  src/core/  — PURE LOGIC, no network      │
-  (unit, <10s,       │  schema · mirror · compliance · tx        │
-   zero network)     │  Zod schemas · bigint-safe parser ·        │
-                     │  compliance-state derivation ·            │
-                     │  transaction-argument builders            │
+  npm test           │  src/core/  — PURE LOGIC, no network     │
+  (unit, <10s,       │  schema · mirror · compliance · tx       │
+   zero network)     │  Zod schemas · bigint-safe parser ·      │
+                     │  compliance-state derivation ·           │
+                     │  transaction-argument builders           │
                      └────────────────────┬─────────────────────┘
                                           │ produces args
                                           ▼
   npm run            ┌──────────────────────────────────────────┐
-  test:integration   │  src/sdk/  — THIN EXECUTION, network      │
-  (testnet,          │  client · mirrorClient · operations/      │
-   on demand)        │  Takes args from core/, fires SDK calls.  │
-                     │  fetch().text() → core parser (never      │
-                     │  JSON.parse a Mirror response directly)   │
+  test:integration   │  src/sdk/  — THIN EXECUTION, network     │
+  (testnet,          │  client · mirrorClient · operations/     │
+   on demand)        │  Takes args from core/, fires SDK calls. │
+                     │  fetch().text() → core parser (never     │
+                     │  JSON.parse a Mirror response directly)  │
                      └────────────────────┬─────────────────────┘
                                           │ used by
                           ┌───────────────┴──────────────┐
