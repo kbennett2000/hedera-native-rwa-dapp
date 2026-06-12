@@ -693,7 +693,7 @@ This is a teaching repo — clarity and accuracy outrank cleverness. If you find
 
 ## 14. License
 
-[MIT](LICENSE) — Copyright (c) 2026 Kenneth Bennett (kbennett2000)
+[MIT](LICENSE) — Copyright (c) 2026 Kris Bennett (kbennett2000)
 
 ---
 
