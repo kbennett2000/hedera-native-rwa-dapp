@@ -105,20 +105,20 @@ The pedagogical centerpiece. Every Part 1 concept maps to a Hedera-native equiva
 
 ```
 ┌────────────────────────────────────────────────────────────────┐
-│              React Frontend (investor-facing)                   │
-│  Connect HashPack · Token Info · Associate · Compliance Status  │
+│              React Frontend (investor-facing)                  │
+│  Connect HashPack · Token Info · Associate · Compliance Status │
 │  Transfer · Audit Trail (HCS feed, consensus-ordered)          │
 └──────────┬──────────────────────────────────┬──────────────────┘
            │ WalletConnect (signing)           │ REST (reads, no wallet)
            ▼                                   ▼
 ┌─────────────────────┐            ┌──────────────────────────────┐
-│ Hedera Consensus    │            │ Hedera Mirror Node            │
-│ Nodes (gRPC via     │            │ (free REST — token info,      │
-│ @hashgraph/sdk)     │            │  accounts, topic messages)    │
+│ Hedera Consensus    │            │ Hedera Mirror Node           │
+│ Nodes (gRPC via     │            │ (free REST — token info,     │
+│ @hashgraph/sdk)     │            │  accounts, topic messages)   │
 │                     │            └──────────────────────────────┘
 │ HTS token keys:     │
 │  kyc · freeze · wipe│            ┌──────────────────────────────┐
-│  pause · supply ·   │◄───────────│ Issuer CLI (SDK scripts)      │
+│  pause · supply ·   │◄───────────│ Issuer CLI (SDK scripts)     │
 │  admin              │            │ create · grantKyc · mint ·   │
 │ HCS topic (audit)   │◄───────────│ freeze · wipe · pause        │
 └─────────────────────┘            └──────────────────────────────┘
